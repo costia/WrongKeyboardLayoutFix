@@ -3,7 +3,7 @@
 // @description    WrongKeyboardLayoutFix
 // @include        https://*/*
 // @include        http://*/*
-// @version        0.031
+// @version        0.04
 // @namespace https://github.com/costia/WrongKeyboardLayoutFix
 // @updateURL https://github.com/costia/WrongKeyboardLayoutFix/raw/master/layout.user.js
 // @downloadURL https://github.com/costia/WrongKeyboardLayoutFix/raw/master/layout.user.js
@@ -13,7 +13,7 @@
 var oldOnKey=null;
 var enKeys="qwertyuiopasdfghjkl;zxcvbnm,./'";
 var otherKeys="/'קראטוןםפשדגכעיחלךףזסבהנמצתץ.,";
-var enableLog=false;
+var enableLog=true;
 
 function replaceText(evt) {
     focused=document.activeElement;
@@ -32,16 +32,25 @@ function replaceText(evt) {
                 tempRef=inStr.match(new RegExp("["+otherKeys[i]+"]", "g"));
                 if (tempRef) countOther+=tempRef.length;
             }
-            for (i=0;i<enKeys.length;i++){
-                if (countEn>=countOther){
-                    inStr=inStr.replace(new RegExp("["+enKeys[i]+"]", "g"),otherKeys[i]);
-                    if (enableLog) console.log("["+enKeys[i]+"]"+"->"+otherKeys[i]+"\n");
+            outStr='';
+            if (countEn>=countOther){
+                inKeys=enKeys;
+                outKeys=otherKeys;
+            }else{
+                inKeys=otherKeys;
+                outKeys=enKeys;
+            }  
+            for (i=0;i<inStr.length;i++){
+                currLetter=inStr[i];
+                var re = new RegExp("["+currLetter+"]");
+                if ((match = re.exec(inKeys)) != null) {
+                    outStr+=outKeys[match.index];
+                    if (enableLog) console.log(outStr[match.index]+"->"+outKeys[i]+"\n");
                 }else{
-                    inStr=inStr.replace(new RegExp("["+otherKeys[i]+"]", "g"),enKeys[i]);
-                    if (enableLog) console.log("["+otherKeys[i]+"]"+"->"+enKeys[i]+"\n");
+                     outStr+=currLetter;
                 }
             }
-            focusedElement.value=inStr;
+            focusedElement.value=outStr;
         }
         
     }
