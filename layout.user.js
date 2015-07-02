@@ -13,6 +13,7 @@
 var oldOnKey=null;
 var enKeys="qwertyuiopasdfghjkl;zxcvbnm,./'";
 var otherKeys="/'קראטוןםפשדגכעיחלךףזסבהנמצתץ.,";
+var enableLog=false;
 
 function replaceText(evt) {
     focused=document.activeElement;
@@ -34,10 +35,10 @@ function replaceText(evt) {
             for (i=0;i<enKeys.length;i++){
                 if (countEn>=countOther){
                     inStr=inStr.replace(new RegExp("["+enKeys[i]+"]", "g"),otherKeys[i]);
-                    console.log("["+enKeys[i]+"]"+"->"+otherKeys[i]+"\n");
+                    if (enableLog) console.log("["+enKeys[i]+"]"+"->"+otherKeys[i]+"\n");
                 }else{
                     inStr=inStr.replace(new RegExp("["+otherKeys[i]+"]", "g"),enKeys[i]);
-                    console.log("["+otherKeys[i]+"]"+"->"+enKeys[i]+"\n");
+                    if (enableLog) console.log("["+otherKeys[i]+"]"+"->"+enKeys[i]+"\n");
                 }
             }
             focusedElement.value=inStr;
