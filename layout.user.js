@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name           Rss
-// @description    Rss
+// @name           WrongKeyboardLayoutFix
+// @description    WrongKeyboardLayoutFix
 // @include        https://*/*
 // @include        http://*/*
 // @version        0.01
