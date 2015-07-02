@@ -3,25 +3,25 @@
 // @description    WrongKeyboardLayoutFix
 // @include        https://*/*
 // @include        http://*/*
-// @version        0.02
+// @version        0.03
 // @namespace https://github.com/costia/WrongKeyboardLayoutFix
 // @updateURL https://github.com/costia/WrongKeyboardLayoutFix/raw/master/layout.user.js
 // @downloadURL https://github.com/costia/WrongKeyboardLayoutFix/raw/master/layout.user.js
 // @grant        none
 // ==/UserScript==
 
-var oldOnKey=document.onkeydown;
-var enKeys="qwertyuiopasdfghjkl;zxcvbnm,.";
-var otherKeys="/'קראטוןםפשדגכעיחלךףזסבהנמצתץ";
+var oldOnKey=null;
+var enKeys="qwertyuiopasdfghjkl;zxcvbnm,./'";
+var otherKeys="/'קראטוןםפשדגכעיחלךףזסבהנמצתץ.,";
 
-document.onkeydown = function(evt) {
+function replaceText(evt) {
     focused=document.activeElement;
     if (oldOnKey){
         oldOnKey(evt);
     }
     if (evt.keyCode == 119) {
         focusedElement=document.activeElement;
-        if (focusedElement.type=="text"){
+        if ((focusedElement.type=="text")||(focusedElement.type=="textarea")){
             inStr=focusedElement.value;
             countEn=0;
             countOther=0;
@@ -34,8 +34,10 @@ document.onkeydown = function(evt) {
             for (i=0;i<enKeys.length;i++){
                 if (countEn>=countOther){
                     inStr=inStr.replace(new RegExp("["+enKeys[i]+"]", "g"),otherKeys[i]);
+                    console.log("["+enKeys[i]+"]"+"->"+otherKeys[i]+"\n");
                 }else{
                     inStr=inStr.replace(new RegExp("["+otherKeys[i]+"]", "g"),enKeys[i]);
+                    console.log("["+otherKeys[i]+"]"+"->"+enKeys[i]+"\n");
                 }
             }
             focusedElement.value=inStr;
@@ -43,3 +45,9 @@ document.onkeydown = function(evt) {
         
     }
 };
+
+setTimeout(function(){
+    oldOnKey=document.onkeydown;
+    document.onkeydown = replaceText;
+}, 500);
+
