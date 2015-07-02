@@ -3,7 +3,7 @@
 // @description    WrongKeyboardLayoutFix
 // @include        https://*/*
 // @include        http://*/*
-// @version        0.03
+// @version        0.031
 // @namespace https://github.com/costia/WrongKeyboardLayoutFix
 // @updateURL https://github.com/costia/WrongKeyboardLayoutFix/raw/master/layout.user.js
 // @downloadURL https://github.com/costia/WrongKeyboardLayoutFix/raw/master/layout.user.js
@@ -50,5 +50,5 @@ function replaceText(evt) {
 setTimeout(function(){
     oldOnKey=document.onkeydown;
     document.onkeydown = replaceText;
-}, 500);
+},1000);
 
